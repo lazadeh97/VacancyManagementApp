@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Adding Services, Repositories and DBConnection
 builder.Services.AddServices();
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllersWithViews();
 
 
@@ -29,16 +29,12 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
-builder.Services.AddAutoMapper(typeof(CustomMapper));
+//builder.Services.AddAutoMapper(typeof(CustomMapper));
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 //Add FluentValidation
 builder.Services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
-
-
-
-
 
 var app = builder.Build();
 
@@ -59,29 +55,36 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
-    // Default route
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    // Account route
-    endpoints.MapAreaControllerRoute(
-     name: "Account",
-     areaName: "Account",
-     pattern: "Account/{controller=Account}/{action=Login}/{id?}");
-
-    endpoints.MapAreaControllerRoute(
-        name: "Admin",
-        areaName: "Admin",
-        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
-
-    endpoints.MapAreaControllerRoute(
-        name: "User",
-        areaName: "User",
-        pattern: "User/{controller=Dashboard}/{action=Index}/{id?}");
+        pattern: "{controller=Vacancies}/{action=Index}/{id?}");
 });
+//app.UseEndpoints(endpoints =>
+//{
+//    // Default route
+//    endpoints.MapControllerRoute(
+//       name: "default",
+//       pattern: "{controller=Vacancies}/{action=Index}/{id?}");
+
+//    // Account route
+//    endpoints.MapAreaControllerRoute(
+//     name: "Account",
+//     areaName: "Account",
+//     pattern: "Account/{controller=Account}/{action=Login}/{id?}");
+
+//    endpoints.MapAreaControllerRoute(
+//        name: "Admin",
+//        areaName: "Admin",
+//        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+
+//    endpoints.MapAreaControllerRoute(
+//        name: "User",
+//        areaName: "User",
+//        pattern: "User/{controller=Dashboard}/{action=Index}/{id?}");
+//});
 
 app.MapRazorPages();
 

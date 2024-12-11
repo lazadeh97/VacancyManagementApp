@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VacancyManagement.Business.DTOs;
 
 namespace VacancyManagementApp.Business.DTOs
 {
-    public class VacancyDTO
+    public class VacancyDto : BaseDto
     {
-        public int Id { get; set; }
         public string Title { get; set; }
-        public string ShortDescription { get; set; }
-        public bool IsActive { get; set; }
+        public string Description { get; set; }
     }
 }

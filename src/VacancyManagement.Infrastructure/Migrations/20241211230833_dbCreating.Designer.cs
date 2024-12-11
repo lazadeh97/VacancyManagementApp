@@ -12,8 +12,8 @@ using VacancyManagementApp.Infrastructure.DAL;
 namespace VacancyManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241211154313_InitialCatalog")]
-    partial class InitialCatalog
+    [Migration("20241211230833_dbCreating")]
+    partial class dbCreating
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,6 +131,40 @@ namespace VacancyManagement.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("VacancyManagement.Core.Entities.Applicant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("VacancyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VacancyId");
+
+                    b.ToTable("Applicants");
+                });
+
             modelBuilder.Entity("VacancyManagementApp.Core.Entities.AppRole", b =>
                 {
                     b.Property<string>("Id")
@@ -138,10 +172,6 @@ namespace VacancyManagement.Infrastructure.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -173,9 +203,6 @@ namespace VacancyManagement.Infrastructure.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -236,32 +263,48 @@ namespace VacancyManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("VacancyManagementApp.Core.Entities.Vacancy", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ShortDescription")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Vacancies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("39321240-6b74-4ec0-9d2f-b3a828f8c19d"),
+                            CreatedAt = new DateTime(2024, 12, 11, 23, 8, 32, 136, DateTimeKind.Utc).AddTicks(2712),
+                            Description = "Develop software solutions.",
+                            IsActive = true,
+                            Title = "Software Developer"
+                        },
+                        new
+                        {
+                            Id = new Guid("6da3b21b-6198-483d-915e-a350ce811265"),
+                            CreatedAt = new DateTime(2024, 12, 11, 23, 8, 32, 136, DateTimeKind.Utc).AddTicks(3841),
+                            Description = "Manage sales activities.",
+                            IsActive = true,
+                            Title = "Sales Manager"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -313,6 +356,17 @@ namespace VacancyManagement.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.Applicant", b =>
+                {
+                    b.HasOne("VacancyManagementApp.Core.Entities.Vacancy", "Vacancy")
+                        .WithMany()
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vacancy");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,8 +7,8 @@ using VacancyManagementApp.Core.Entities;
 
 namespace VacancyManagementApp.Core.Interfaces
 {
-    public interface IAppUserRepository : IGenericRepository <AppUser>
-    {
-        Task<AppUser> GetUserByEmailAsync(string email);
-    }
+    //public interface IAppUserRepository : IGenericRepository <AppUser>
+    //{
+    //    Task<AppUser> GetUserByEmailAsync(string email);
+    //}
 }

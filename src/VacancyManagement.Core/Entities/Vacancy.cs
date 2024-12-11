@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VacancyManagement.Core.Entities;
 
 namespace VacancyManagementApp.Core.Entities
 {
-    public class Vacancy
+    public class Vacancy :BaseEntity
     {
-        public int Id { get; set; }
         public string Title { get; set; }
-        public string ShortDescription { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string Description { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

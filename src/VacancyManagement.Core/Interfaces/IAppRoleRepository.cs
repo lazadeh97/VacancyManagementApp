@@ -7,8 +7,8 @@ using VacancyManagementApp.Core.Entities;
 
 namespace VacancyManagementApp.Core.Interfaces
 {
-    public interface IAppRoleRepository : IGenericRepository<AppRole>
-    {
-        Task<AppRole> GetRoleByNameAsync(string roleName);
-    }
+    //public interface IAppRoleRepository : IGenericRepository<AppRole>
+    //{
+    //    Task<AppRole> GetRoleByNameAsync(string roleName);
+    //}
 }

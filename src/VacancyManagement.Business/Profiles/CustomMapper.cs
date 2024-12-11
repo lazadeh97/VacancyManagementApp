@@ -13,6 +13,7 @@ namespace VacancyManagement.Business.Profiles
     {
         public CustomMapper()
         {
+            CreateMap<Vacancy, VacancyDto>().ReverseMap();
             CreateMap<RegisterDTO, AppUser>();
         }
     }

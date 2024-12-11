@@ -16,8 +16,9 @@ namespace VacancyManagement.Web.Extensions
                 {
                     var newRole = new AppRole
                     {
-                        Name = role,
-                        Description = $"{role} rolunun təsviri"
+                        Name = role
+                        //,
+                        //Description = $"{role} rolunun təsviri"
                     };
                     await roleManager.CreateAsync(newRole);
                 }

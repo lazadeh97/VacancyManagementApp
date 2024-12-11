@@ -9,6 +9,5 @@ namespace VacancyManagementApp.Core.Entities
 {
     public class AppRole : IdentityRole
     {
-        public string Description { get; set; }
     }
 }

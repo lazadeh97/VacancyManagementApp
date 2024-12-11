@@ -1,0 +1,28 @@
+﻿@model IEnumerable<VacancyManagementApp.Business.DTOs.VacancyDto>
+@{
+    Layout = "_Layout";
+}
+
+<h1>Mövcud Vakansiyalar</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Vakansiya</th>
+            <th>Tələblər</th>
+            <th>Müraciət</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vacancy in Model)
+        {
+            <tr>
+                <td>@vacancy.Title</td>
+                <td>@vacancy.Description</td>
+                <td>
+                    <a asp-action="Apply" asp-route-id="@vacancy.Id" class="btn btn-primary">Müraciət et</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
