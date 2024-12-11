@@ -11,6 +11,10 @@ namespace VacancyManagementApp.Business.DTOs
     {
         [Required]
         [StringLength(100)]
+        public string FullName { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public string UserName { get; set; }
 
         [Required]
@@ -25,8 +29,8 @@ namespace VacancyManagementApp.Business.DTOs
         [StringLength(100, MinimumLength = 6)]
         public string Password { get; set; }
 
-        [Required]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        //[Required]
+        //[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        //public string ConfirmPassword { get; set; }
     }
 }

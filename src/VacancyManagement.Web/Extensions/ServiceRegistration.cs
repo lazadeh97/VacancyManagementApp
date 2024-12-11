@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Runtime.CompilerServices;
+using VacancyManagementApp.Business.Services.Implementations;
+using VacancyManagementApp.Business.Services.Interfaces;
+using VacancyManagementApp.Core.Interfaces;
 using VacancyManagementApp.Infrastructure.DAL;
+using VacancyManagementApp.Infrastructure.Repositories;
 
 namespace VacancyManagement.Web.Extensions
 {
@@ -13,13 +17,17 @@ namespace VacancyManagement.Web.Extensions
                     options.UseSqlServer(Configuration.ConnectionString));
 
 
-
-            //services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            //Generics
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             //services.AddScoped(typeof(IGenericService<,>), typeof(GenericService<,>));
 
-            //services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
-            //services.AddScoped<IProductCategoryService, ProductCategoryService>();
-            //services.AddScoped<IAppUserService, UserService>();
+            //Repositories
+            services.AddScoped<IAppRoleRepository, AppRoleRepository>();
+            services.AddScoped<IAppUserRepository, AppUserRepository>();
+
+            //Services
+            services.AddScoped<IAppUserService, AppUserService>();
+            services.AddScoped<IAppUserService, AppUserService>();
         }
     }
 }

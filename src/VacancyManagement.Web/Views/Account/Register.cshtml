@@ -1,37 +1,63 @@
 ﻿@model VacancyManagementApp.Business.DTOs.RegisterDTO
 @{
-    
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h2>Register</h2>
+<body>
 
-<form asp-action="Register" method="post">
-    <div class="form-group">
-        <label for="UserName">Username</label>
-        <input asp-for="UserName" class="form-control" />
-        <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="Email">Email</label>
-        <input asp-for="Email" type="email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="PhoneNumber">Phone Number</label>
-        <input asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="Password">Password</label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+    <form asp-controller="Account" asp-action="Register" method="post" class="mt-3 my-5">
+        @Html.AntiForgeryToken()
+        <section class="auth-wrapper">
+            <div class="container">
+                <a class="btn btn-back" asp-controller="Home" asp-action="Index">
+                </a>
+                <div class="form-wrapper m-auto">
+                    <h2 class="t-center">Qeydiyyat</h2>
+                    <div class="form-group">
+                        <label asp-for="FullName" class="control-label">Tam ad</label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserName" class="control-label">İstifadəçi adı</label>
+                        <input asp-for="UserName" class="form-control" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
 
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation.unobtrusive/3.2.13/jquery.validate.unobtrusive.min.js"></script>
-}
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label">Telefon nömrəsi</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label">Email</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label">Şifrə</label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 control-label">
+                        <input id="frmProduct" type="submit" value="Qeydiyyatdan keç" class="btn btn-primary btn-lg btn-block" tabindex="16" />
+                    </div>
+                </div>
+           @*      <a href="#" class="t-center link">Qeydiyyatdan keç</a> *@
+            </div>
+
+            <partial name="_Footer" />
+
+        </section>
+    </form>
+@*     <script src="~/assets/js/plugins.min.js"></script>
+    <script src="~/assets/js/scripts.js"></script> *@
+</body>
+
+<!-- Validation scriptləri daxil edin -->
+@* @Html.Partial("_ValidationScriptsPartial") *@
+
 
 

@@ -1,5 +1,8 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using System;
+using VacancyManagement.Business.Profiles;
+using VacancyManagement.Business.Validators;
 using VacancyManagement.Web.Extensions;
 using VacancyManagementApp.Core.Entities;
 using VacancyManagementApp.Infrastructure.DAL;
@@ -10,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddServices();
 
 builder.Services.AddControllersWithViews();
+
 
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
@@ -25,9 +29,16 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
-
+builder.Services.AddAutoMapper(typeof(CustomMapper));
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
+//Add FluentValidation
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
+
+
+
+
 
 var app = builder.Build();
 

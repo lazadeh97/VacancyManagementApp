@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using VacancyManagementApp.Business.DTOs;
 using VacancyManagementApp.Business.Services.Interfaces;
 using VacancyManagementApp.Core.Entities;
@@ -8,10 +9,12 @@ namespace VacancyManagement.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IAppUserService _userService;
+        private readonly IMapper _mapper;
 
-        public AccountController(IAppUserService userService)
+        public AccountController(IAppUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         // Qeydiyyat səhifəsi
@@ -22,17 +25,14 @@ namespace VacancyManagement.Web.Controllers
 
         // Qeydiyyat metodunda modelin doğruluğu yoxlanır
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterDTO model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([FromForm] RegisterDTO model)
         {
+          
             if (ModelState.IsValid)
             {
-                var user = new AppUser
-                {
-                    UserName = model.UserName,
-                    Email = model.Email,
-                    PhoneNumber = model.PhoneNumber
-                };
-
+                var user = _mapper.Map<AppUser>(model);
+                
                 var result = await _userService.CreateUserAsync(user, model.Password);
                 if (result.Succeeded)
                 {
