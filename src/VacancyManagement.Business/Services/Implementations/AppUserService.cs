@@ -36,6 +36,15 @@ namespace VacancyManagementApp.Business.Services.Implementations
             var result = await _signInManager.PasswordSignInAsync(user, password, rememberMe, false);
             return result;
         }
+        public async Task<AppUser> GetUserByUsernameAsync(string username)
+        {
+            return await _userManager.FindByNameAsync(username);
+        }
+
+        public async Task<IList<string>> GetUserRolesAsync(AppUser user)
+        {
+            return await _userManager.GetRolesAsync(user);
+        }
 
         Task IAppUserService.DeleteUserAsync(string id)
         {
