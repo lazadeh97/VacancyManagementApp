@@ -21,7 +21,11 @@ namespace VacancyManagement.Web.Controllers
         public IActionResult Register() => View();
 
         // Login səhifəsi
-        public IActionResult Login() => View();
+        public IActionResult Login()
+        {
+            var model = new LoginDTO();
+            return View(model);
+        } 
 
         // Qeydiyyat metodunda modelin doğruluğu yoxlanır
         [HttpPost]
@@ -50,8 +54,17 @@ namespace VacancyManagement.Web.Controllers
 
         // Login metodunda istifadəçi doğrulaması edilir
         [HttpPost]
-        public async Task<IActionResult> Login(LoginDTO model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login([FromForm] LoginDTO model)
         {
+            //if (!ModelState.IsValid)
+            //{
+            //    var errors = ModelState.Values.SelectMany(v => v.Errors).ToList();
+            //    foreach (var error in errors)
+            //    {
+            //        Console.WriteLine(error.ErrorMessage);
+            //    }
+            //}
             if (ModelState.IsValid)
             {
                 // İstifadəçini username vasitəsilə tapırıq
@@ -80,7 +93,7 @@ namespace VacancyManagement.Web.Controllers
                     }
 
                     // Default olaraq əsas səhifəyə yönləndir
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Vacancies");
                 }
                 else
                 {

@@ -12,7 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 //Adding Services, Repositories and DBConnection
 builder.Services.AddServices();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddDataAnnotationsLocalization();
+builder.Services.AddMvc(options =>
+{
+    options.EnableEndpointRouting = false;
+}).AddRazorRuntimeCompilation();
 
 
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
@@ -34,16 +38,23 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 //Add FluentValidation
+//builder.Services.AddFluentValidationAutoValidation();
+//builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
 
 var app = builder.Build();
 
 //Call SeedRoles method for creating Roles
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    await services.SeedRoles();  // SeedRoles method
+//}
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    await services.SeedRoles();  // SeedRoles method
+    await scope.ServiceProvider.SeedRoles();
 }
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -52,40 +63,56 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 
-app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseRouting();
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 app.UseEndpoints(endpoints =>
 {
-    // Default route
+    // İstifadəçi üçün Default Route
     endpoints.MapControllerRoute(
-       name: "default",
-       pattern: "{controller=Vacancies}/{action=Index}/{id?}");
+        name: "default",
+        pattern: "{controller=Vacancies}/{action=Index}/{id?}");
 
-    // Account route
-    endpoints.MapAreaControllerRoute(
-     name: "Account",
-     areaName: "Account",
-     pattern: "Account/{controller=Account}/{action=Login}/{id?}");
-
+    // Admin Area üçün Route
     endpoints.MapAreaControllerRoute(
         name: "Admin",
         areaName: "Admin",
         pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
-
-    endpoints.MapAreaControllerRoute(
-        name: "User",
-        areaName: "User",
-        pattern: "User/{controller=Dashboard}/{action=Index}/{id?}");
-
-    // CV-lər üçün route
-    endpoints.MapControllerRoute(
-        name: "cv",
-        pattern: "CV/ViewApplicantCVs/{applicantId?}",
-        defaults: new { controller = "CV", action = "ViewApplicantCVs" });
 });
+
+
+
+//app.UseEndpoints(endpoints =>
+//{
+//    // Default route
+//    endpoints.MapControllerRoute(
+//       name: "default",
+//       pattern: "{controller=Vacancies}/{action=Index}/{id?}");
+
+//    // Account route
+//    endpoints.MapAreaControllerRoute(
+//     name: "Account",
+//     areaName: "Account",
+//     pattern: "Account/{controller=Account}/{action=Login}/{id?}");
+
+//    endpoints.MapAreaControllerRoute(
+//        name: "Admin",
+//        areaName: "Admin",
+//        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+
+//    endpoints.MapAreaControllerRoute(
+//        name: "User",
+//        areaName: "User",
+//        pattern: "User/{controller=Dashboard}/{action=Index}/{id?}");
+
+//    // CV-lər üçün route
+//    endpoints.MapControllerRoute(
+//        name: "cv",
+//        pattern: "CV/ViewApplicantCVs/{applicantId?}",
+//        defaults: new { controller = "CV", action = "ViewApplicantCVs" });
+//});
 
 app.MapRazorPages();
 

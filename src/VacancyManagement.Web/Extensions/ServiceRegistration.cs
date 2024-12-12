@@ -37,7 +37,7 @@ namespace VacancyManagement.Web.Extensions
             services.AddScoped<ITestService, TestService>();
             services.AddScoped<IVacancyService, VacancyService>();
             services.AddScoped<IAppUserService, AppUserService>();
-            services.AddScoped<IAppUserService, AppUserService>();
+            services.AddScoped<IAppRoleService, AppRoleService>();
         }
     }
 }

@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">Admin Paneli</a>
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="@Url.Action("Manage", "Vacancies", new { area = "Admin" })">Vakansiyalar</a>
+            <a class="nav-item nav-link" href="@Url.Action("Manage", "Applicants", new { area = "Admin" })">Namizədlər</a>
+            <a class="nav-item nav-link" href="@Url.Action("Manage", "TestQuestions", new { area = "Admin" })">Test Sualları</a>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        @RenderBody()
+    </div>
+</body>
+</html>

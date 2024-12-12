@@ -9,10 +9,10 @@ namespace VacancyManagementApp.Business.DTOs
 {
     public class LoginDTO
     {
-        [Required]
+        [Required(ErrorMessage = "İstifadəçi adı tələb olunur")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Şifrə tələb olunur")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

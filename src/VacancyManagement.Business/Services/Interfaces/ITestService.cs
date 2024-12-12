@@ -9,5 +9,7 @@ public interface ITestService
     Task StartTest(Guid applicantId, Guid vacancyId);
     Task<bool> SubmitAnswer(Guid applicantTestId, Guid questionId, Guid selectedOptionId);
     Task<List<TestResultDto>> GetTestResults(Guid applicantTestId);
+    //Task<TestEvaluationDto> EvaluateTestAsync(Guid applicantTestId);
+
 }
 

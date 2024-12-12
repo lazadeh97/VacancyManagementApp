@@ -20,7 +20,8 @@ namespace VacancyManagement.Business.Profiles
             CreateMap<TestOption, TestOptionDto>().ReverseMap();
             CreateMap<TestResult, TestResultDto>().ReverseMap();
             CreateMap<ApplicantTest, ApplicantTestDto>().ReverseMap();
-            CreateMap<RegisterDTO, AppUser>();
+            CreateMap<RegisterDTO, AppUser>().ReverseMap();
+            CreateMap<LoginDTO, AppUser>().ReverseMap();
         }
     }
 }
