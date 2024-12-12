@@ -1,0 +1,27 @@
+﻿@model IEnumerable<VacancyManagement.Core.Entities.ApplicantCV>
+
+<h2>Namizədin CV-ləri</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fayl Adı</th>
+            <th>Fayl Formatı</th>
+            <th>Yükləmə Tarixi</th>
+            <th>Yükləmə</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cv in Model)
+        {
+            <tr>
+                <td>@cv.FileName</td>
+                <td>@cv.FileType</td>
+                <td>@cv.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>
+                    <a href="@cv.FilePath" class="btn btn-primary" download="@cv.FileName">Yüklə</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

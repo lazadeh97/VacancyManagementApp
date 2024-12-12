@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "CV Yükləmə";
+}
+
+<h2>CV Yükləmə</h2>
+
+<form asp-action="UploadCV" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="applicantId" value="@ViewBag.ApplicantId" />
+
+    <div class="form-group">
+        <label for="cvFile">CV Faylı</label>
+        <input type="file" name="cvFile" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Yüklə</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @Html.ValidationSummary()
+    </div>
+}

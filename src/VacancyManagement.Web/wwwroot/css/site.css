@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -19,4 +19,31 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+.popup-message {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #28a745;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none; /* Başlanğıcda gizlidir */
+}
+
+.popup-message button {
+        background-color: #fff;
+        color: #28a745;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+}
+
+.popup-message button:hover {
+            background-color: #f8f9fa;
 }

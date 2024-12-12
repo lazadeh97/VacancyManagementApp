@@ -21,6 +21,8 @@ namespace VacancyManagementApp.Infrastructure.DAL
         public DbSet<TestOption> TestOptions { get; set; }
         public DbSet<ApplicantTest> ApplicantTests { get; set; }
         public DbSet<TestResult> TestResults { get; set; }
+        public DbSet<ApplicantCV> ApplicantCVs { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -47,11 +49,12 @@ namespace VacancyManagementApp.Infrastructure.DAL
                 .WithMany()
                 .HasForeignKey(tq => tq.VacancyId);
 
-            //modelBuilder.Entity<TestResult>()
-            //     .HasOne(tr => tr.ApplicantTest)
-            //     .WithMany(at => at.TestResults)
-            //     .HasForeignKey(tr => tr.ApplicantTestId)
-            //     .OnDelete(DeleteBehavior.Cascade); // Burada davranışı tənzimləyirik
+            // Applicant və ApplicantCV əlaqəsi
+            modelBuilder.Entity<ApplicantCV>()
+                .HasOne(cv => cv.Applicant)
+                .WithMany(a => a.ApplicantCVs)
+                .HasForeignKey(cv => cv.ApplicantId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<TestResult>()
                 .HasOne(tr => tr.TestQuestion)

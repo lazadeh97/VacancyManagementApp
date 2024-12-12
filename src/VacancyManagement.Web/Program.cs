@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using System;
 using VacancyManagement.Business.Profiles;
@@ -79,6 +79,12 @@ app.UseEndpoints(endpoints =>
         name: "User",
         areaName: "User",
         pattern: "User/{controller=Dashboard}/{action=Index}/{id?}");
+
+    // CV-lər üçün route
+    endpoints.MapControllerRoute(
+        name: "cv",
+        pattern: "CV/ViewApplicantCVs/{applicantId?}",
+        defaults: new { controller = "CV", action = "ViewApplicantCVs" });
 });
 
 app.MapRazorPages();

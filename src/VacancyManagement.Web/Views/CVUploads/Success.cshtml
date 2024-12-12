@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Uğurlu Yükləmə";
+}
+
+<!-- Pop-up -->
+<div id="popupMessage" class="popup-message">
+    <span class="popup-text"></span>
+    <button onclick="location.href='/'">Ana Səhifə</button>
+</div>
+
+<script>
+
+     function showPopupMessage(message) {
+        const popup = document.getElementById('popupMessage');
+        popup.querySelector('.popup-text').textContent = message;
+        popup.style.display = 'block';
+
+        // 3 saniyə sonra gizlədin
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 3000);
+    }
+
+    // Pop-up mesajını göstərin
+    showPopupMessage("@ViewBag.Message");
+</script>
+
