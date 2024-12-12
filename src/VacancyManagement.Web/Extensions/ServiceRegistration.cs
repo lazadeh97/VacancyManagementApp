@@ -3,6 +3,8 @@ using System;
 using System.Runtime.CompilerServices;
 using VacancyManagement.Business.Services.Implementations;
 using VacancyManagement.Business.Services.Interfaces;
+using VacancyManagement.Core.Interfaces;
+using VacancyManagement.Infrastructure.Repositories;
 using VacancyManagementApp.Business.Services.Implementations;
 using VacancyManagementApp.Business.Services.Interfaces;
 using VacancyManagementApp.Core.Interfaces;
@@ -24,10 +26,12 @@ namespace VacancyManagement.Web.Extensions
             //services.AddScoped(typeof(IGenericService<,>), typeof(GenericService<,>));
 
             //Repositories
+            services.AddScoped<ITestQuestionRepository, TestQuestionRepository>();
             //services.AddScoped<IAppRoleRepository, AppRoleRepository>();
             //services.AddScoped<IAppUserRepository, AppUserRepository>();
 
             //Services
+            services.AddScoped<ITestService, TestService>();
             services.AddScoped<IVacancyService, VacancyService>();
             services.AddScoped<IAppUserService, AppUserService>();
             services.AddScoped<IAppUserService, AppUserService>();

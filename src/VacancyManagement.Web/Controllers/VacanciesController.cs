@@ -33,5 +33,18 @@ namespace VacancyManagement.Web.Controllers
             await _vacancyService.ApplyToVacancy(application);
             return RedirectToAction("Index");
         }
+
+        public IActionResult StartTest(Guid vacancyId)
+        {
+            // Test qaydalarını View-a göndərin
+            var rules = new TestRules
+            {
+                TimePerQuestion = 60, // hər suala 60 saniyə
+                TotalQuestions = 15   // ümumi 15 sual
+            };
+
+            ViewBag.VacancyId = vacancyId; // Vakansiya məlumatını göndərin
+            return View(rules);
+        }
     }
 }

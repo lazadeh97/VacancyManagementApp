@@ -1,0 +1,11 @@
+﻿@model VacancyManagement.Business.Helpers.TestRules
+
+<h2>Testin Qaydaları</h2>
+<p>Hər suala cavab üçün @Model.TimePerQuestion saniyə vaxt ayrılmışdır.</p>
+<p>Ümumilikdə @Model.TotalQuestions sual cavablandırılmalıdır.</p>
+
+<form asp-action="BeginTest" method="post">
+    <input type="hidden" name="vacancyId" value="@ViewBag.VacancyId" />
+    <button type="submit" class="btn btn-primary">Testə Başla</button>
+</form>
+

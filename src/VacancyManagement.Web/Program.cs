@@ -56,35 +56,30 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
 app.UseEndpoints(endpoints =>
 {
+    // Default route
     endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Vacancies}/{action=Index}/{id?}");
+       name: "default",
+       pattern: "{controller=Vacancies}/{action=Index}/{id?}");
+
+    // Account route
+    endpoints.MapAreaControllerRoute(
+     name: "Account",
+     areaName: "Account",
+     pattern: "Account/{controller=Account}/{action=Login}/{id?}");
+
+    endpoints.MapAreaControllerRoute(
+        name: "Admin",
+        areaName: "Admin",
+        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+
+    endpoints.MapAreaControllerRoute(
+        name: "User",
+        areaName: "User",
+        pattern: "User/{controller=Dashboard}/{action=Index}/{id?}");
 });
-//app.UseEndpoints(endpoints =>
-//{
-//    // Default route
-//    endpoints.MapControllerRoute(
-//       name: "default",
-//       pattern: "{controller=Vacancies}/{action=Index}/{id?}");
-
-//    // Account route
-//    endpoints.MapAreaControllerRoute(
-//     name: "Account",
-//     areaName: "Account",
-//     pattern: "Account/{controller=Account}/{action=Login}/{id?}");
-
-//    endpoints.MapAreaControllerRoute(
-//        name: "Admin",
-//        areaName: "Admin",
-//        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
-
-//    endpoints.MapAreaControllerRoute(
-//        name: "User",
-//        areaName: "User",
-//        pattern: "User/{controller=Dashboard}/{action=Index}/{id?}");
-//});
 
 app.MapRazorPages();
 

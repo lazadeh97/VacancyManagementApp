@@ -1,0 +1,32 @@
+﻿@model List<VacancyManagement.Business.DTOs.TestResultDto>
+
+<h2>Test Nəticələri</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sual</th>
+            <th>Namizədin Cavabı</th>
+            <th>Düzgünlük</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model)
+        {
+            <tr>
+                <td>@result.QuestionText</td>
+                <td>@result.SelectedOptionText</td>
+                <td>
+                    @if (result.IsCorrect)
+                    {
+                        <span class="text-success">Düzgün</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Səhv</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,17 @@
+﻿@model VacancyManagement.Business.DTOs.TestQuestionDto
+
+<h2>Sual</h2>
+<p>@Model.QuestionText</p>
+
+<form asp-action="SubmitAnswer" method="post">
+    @foreach (var option in Model.Options)
+    {
+        <div>
+            <input type="radio" name="SelectedOptionId" value="@option.Id" id="@option.Id" />
+            <label for="@option.Id">@option.OptionText</label>
+        </div>
+    }
+    <input type="hidden" name="QuestionId" value="@Model.Id" />
+    <input type="hidden" name="ApplicantTestId" value="@ViewBag.ApplicantTestId" />
+    <button type="submit" class="btn btn-primary">Növbəti</button>
+</form>

@@ -17,6 +17,10 @@ namespace VacancyManagementApp.Infrastructure.DAL
 
         public DbSet<Vacancy> Vacancies { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
+        public DbSet<TestQuestion> TestQuestions { get; set; }
+        public DbSet<TestOption> TestOptions { get; set; }
+        public DbSet<ApplicantTest> ApplicantTests { get; set; }
+        public DbSet<TestResult> TestResults { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,6 +36,39 @@ namespace VacancyManagementApp.Infrastructure.DAL
                 new Vacancy { Id = Guid.NewGuid(), Title = "Software Developer", Description = "Develop software solutions.", IsActive = true },
                 new Vacancy { Id = Guid.NewGuid(), Title = "Sales Manager", Description = "Manage sales activities.", IsActive = true }
             );
+
+            modelBuilder.Entity<TestOption>()
+            .HasOne(to => to.TestQuestion)
+            .WithMany(tq => tq.Options)
+            .HasForeignKey(to => to.TestQuestionId);
+
+            modelBuilder.Entity<TestQuestion>()
+                .HasOne(tq => tq.Vacancy)
+                .WithMany()
+                .HasForeignKey(tq => tq.VacancyId);
+
+            //modelBuilder.Entity<TestResult>()
+            //     .HasOne(tr => tr.ApplicantTest)
+            //     .WithMany(at => at.TestResults)
+            //     .HasForeignKey(tr => tr.ApplicantTestId)
+            //     .OnDelete(DeleteBehavior.Cascade); // Burada davranışı tənzimləyirik
+
+            modelBuilder.Entity<TestResult>()
+                .HasOne(tr => tr.TestQuestion)
+                .WithMany()
+                .HasForeignKey(tr => tr.TestQuestionId)
+                .OnDelete(DeleteBehavior.Restrict); // Cyclic delete-in qarşısını almaq üçün
+
+            modelBuilder.Entity<TestResult>()
+                .HasOne(tr => tr.SelectedOption)
+                .WithMany()
+                .HasForeignKey(tr => tr.SelectedOptionId)
+                .OnDelete(DeleteBehavior.Restrict); // Yenə eyni səbəb
+
+            modelBuilder.Entity<ApplicantTest>()
+                .HasMany(at => at.TestResults)
+                .WithOne()
+                .HasForeignKey(tr => tr.ApplicantTestId);
         }
     }
 }

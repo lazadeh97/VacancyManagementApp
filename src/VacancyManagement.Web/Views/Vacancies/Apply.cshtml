@@ -1,9 +1,9 @@
 ﻿@model VacancyManagement.Core.Entities.Applicant
 
-<h1>Apply for Vacancy</h1>
+<h1>Vakansiyaya müraciət et</h1>
 
-<form asp-action="Apply" method="post">
-    <input type="hidden" asp-for="VacancyId" />
+<form asp-action="Apply" asp-controller="Vacancies" method="post">
+    <input type="hidden" asp-for="VacancyId" value="@Model.VacancyId" />
 
     <div class="form-group">
         <label asp-for="FullName"></label>

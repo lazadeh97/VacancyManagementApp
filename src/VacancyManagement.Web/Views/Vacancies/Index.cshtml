@@ -20,7 +20,7 @@
                 <td>@vacancy.Title</td>
                 <td>@vacancy.Description</td>
                 <td>
-                    <a asp-action="Apply" asp-route-id="@vacancy.Id" class="btn btn-primary">Müraciət et</a>
+                    <a asp-controller="Vacancies" asp-action="Apply" asp-route-id="@vacancy.Id" class="btn btn-primary">Müraciət et</a>
                 </td>
             </tr>
         }

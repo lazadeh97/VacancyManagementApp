@@ -162,6 +162,125 @@ namespace VacancyManagement.Infrastructure.Migrations
                     b.ToTable("Applicants");
                 });
 
+            modelBuilder.Entity("VacancyManagement.Core.Entities.ApplicantTest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ApplicantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("VacancyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicantTests");
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.TestOption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OptionText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TestQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestQuestionId");
+
+                    b.ToTable("TestOptions");
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.TestQuestion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("VacancyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VacancyId");
+
+                    b.ToTable("TestQuestions");
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.TestResult", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ApplicantTestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("SelectedOptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TestQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicantTestId");
+
+                    b.HasIndex("SelectedOptionId");
+
+                    b.HasIndex("TestQuestionId");
+
+                    b.ToTable("TestResults");
+                });
+
             modelBuilder.Entity("VacancyManagementApp.Core.Entities.AppRole", b =>
                 {
                     b.Property<string>("Id")
@@ -288,16 +407,16 @@ namespace VacancyManagement.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("39321240-6b74-4ec0-9d2f-b3a828f8c19d"),
-                            CreatedAt = new DateTime(2024, 12, 11, 23, 8, 32, 136, DateTimeKind.Utc).AddTicks(2712),
+                            Id = new Guid("c37e1928-8519-4639-a0d5-c8f53ab239f2"),
+                            CreatedAt = new DateTime(2024, 12, 12, 8, 59, 28, 352, DateTimeKind.Utc).AddTicks(8613),
                             Description = "Develop software solutions.",
                             IsActive = true,
                             Title = "Software Developer"
                         },
                         new
                         {
-                            Id = new Guid("6da3b21b-6198-483d-915e-a350ce811265"),
-                            CreatedAt = new DateTime(2024, 12, 11, 23, 8, 32, 136, DateTimeKind.Utc).AddTicks(3841),
+                            Id = new Guid("017a9c4e-467f-4a18-bed3-6ca100eb6df9"),
+                            CreatedAt = new DateTime(2024, 12, 12, 8, 59, 28, 352, DateTimeKind.Utc).AddTicks(9724),
                             Description = "Manage sales activities.",
                             IsActive = true,
                             Title = "Sales Manager"
@@ -364,6 +483,63 @@ namespace VacancyManagement.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Vacancy");
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.TestOption", b =>
+                {
+                    b.HasOne("VacancyManagement.Core.Entities.TestQuestion", "TestQuestion")
+                        .WithMany("Options")
+                        .HasForeignKey("TestQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TestQuestion");
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.TestQuestion", b =>
+                {
+                    b.HasOne("VacancyManagementApp.Core.Entities.Vacancy", "Vacancy")
+                        .WithMany()
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vacancy");
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.TestResult", b =>
+                {
+                    b.HasOne("VacancyManagement.Core.Entities.ApplicantTest", null)
+                        .WithMany("TestResults")
+                        .HasForeignKey("ApplicantTestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VacancyManagement.Core.Entities.TestOption", "SelectedOption")
+                        .WithMany()
+                        .HasForeignKey("SelectedOptionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("VacancyManagement.Core.Entities.TestQuestion", "TestQuestion")
+                        .WithMany()
+                        .HasForeignKey("TestQuestionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("SelectedOption");
+
+                    b.Navigation("TestQuestion");
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.ApplicantTest", b =>
+                {
+                    b.Navigation("TestResults");
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.TestQuestion", b =>
+                {
+                    b.Navigation("Options");
                 });
 #pragma warning restore 612, 618
         }
