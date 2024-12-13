@@ -4,28 +4,63 @@
 }
 
 <h1>Vakansiyaya müraciət et</h1>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <form id="applyForm" asp-action="StartTest">
+        <input type="hidden" asp-for="VacancyId" value="@Model.VacancyId" />
 
-<form id="applicationForm" asp-action="StartTest" method="post">
-    <input type="hidden" asp-for="VacancyId" value="@Model.VacancyId" />
+        <div class="form-group">
+            <label for="FullName">Ad və Soyad</label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label for="ApplicantName">Ad və Soyad</label>
-        <input asp-for="ApplicantName" class="form-control" />
-        <span asp-validation-for="ApplicantName" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label for="Email">Elektron poçt ünvanı</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label for="Email">Elektron poçt ünvanı</label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label for="PhoneNumber">Telefon Nömrəsi</label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label for="PhoneNumber">Telefon Nömrəsi</label>
-        <input asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
+        <!-- JavaScript ilə yönləndirmə ediləcək düymə -->
+        <button type="submit" class="btn btn-primary">Göndər</button>
 
-    <!-- JavaScript ilə yönləndirmə ediləcək düymə -->
-    <button type="submit" class="btn btn-primary" id="submitButton">Göndər</button>
-</form>
+        <!-- JavaScript -->
+        <script>
+            $(document).ready(function () {
+                $('#applyForm').submit(function (e) {
+                    e.preventDefault(); // Default form submit-in qarşısını alırıq
+
+                    // AJAX sorğusu
+                    $.ajax({
+                        url: '/Vacancies/Apply', // Kontroller metodunun URL-i
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            Name: $('#FullName').val(),
+                            Email: $('#Email').val(),
+                            Phone: $('#PhoneNumber').val()
+                        }),
+                        success: function (response) {
+                            // alert("Application submitted successfully!");
+                            // // Uğurlu nəticədən sonra başqa bir səhifəyə yönləndir
+                            window.location.href = '/Vacancies/StartTest';
+                        },
+                        error: function (err) {
+                            alert("Error submitting application. Please try again.");
+                        }
+                    });
+                });
+            });
+        </script>
+    </form>
+</body>
+
+
