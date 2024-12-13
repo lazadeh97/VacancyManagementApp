@@ -13,9 +13,9 @@ namespace VacancyManagement.Core.Entities
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public Guid VacancyId { get; set; }
-        public Vacancy Vacancy { get; set; }
+        public Vacancy? Vacancy { get; set; }
 
         // CV ilə əlaqə
-        public ICollection<ApplicantCV> ApplicantCVs { get; set; }
+        public ICollection<ApplicantCV>? ApplicantCVs { get; set; }
     }
 }

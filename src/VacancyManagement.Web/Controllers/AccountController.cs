@@ -21,11 +21,11 @@ namespace VacancyManagement.Web.Controllers
         public IActionResult Register() => View();
 
         // Login səhifəsi
-        public IActionResult Login()
-        {
-            var model = new LoginDTO();
-            return View(model);
-        } 
+        public IActionResult Login() => View();
+        //{
+        //    //var model = new LoginDTO();
+        //    //return View(model);
+        //} 
 
         // Qeydiyyat metodunda modelin doğruluğu yoxlanır
         [HttpPost]
@@ -55,7 +55,7 @@ namespace VacancyManagement.Web.Controllers
         // Login metodunda istifadəçi doğrulaması edilir
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromForm] LoginDTO model)
+        public async Task<IActionResult> Login(LoginDTO model)
         {
             //if (!ModelState.IsValid)
             //{

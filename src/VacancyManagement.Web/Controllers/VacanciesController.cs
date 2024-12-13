@@ -25,7 +25,7 @@ namespace VacancyManagement.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Apply(Applicant application)
+        public async Task<IActionResult> Apply([FromBody] Applicant application)
         {
             if (!ModelState.IsValid)
                 return View(application);

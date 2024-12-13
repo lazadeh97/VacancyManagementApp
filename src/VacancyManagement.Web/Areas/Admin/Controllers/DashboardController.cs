@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace VacancyManagement.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
-    public class DasboardController : Controller
+    //[Authorize(Roles = "Admin")]
+    public class DashboardController : Controller
     {
         public IActionResult Index()
         {

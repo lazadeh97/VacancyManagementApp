@@ -9,23 +9,24 @@
 </head>
 <body>
     <form id="applyForm" asp-action="StartTest">
-        <input type="hidden" asp-for="VacancyId" value="@Model.VacancyId" />
+        <input type="hidden" name="VacancyId" value="@Model.VacancyId" />
+        @* <input type="hidden" asp-for="VacancyId" /> *@
 
         <div class="form-group">
             <label for="FullName">Ad və Soyad</label>
-            <input asp-for="FullName" class="form-control" />
+            <input asp-for="FullName" class="form-control" name="FullName" />
             <span asp-validation-for="FullName" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label for="Email">Elektron poçt ünvanı</label>
-            <input asp-for="Email" class="form-control" />
+            <input asp-for="Email" class="form-control" name="Email" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label for="PhoneNumber">Telefon Nömrəsi</label>
-            <input asp-for="PhoneNumber" class="form-control" />
+            <input asp-for="PhoneNumber" class="form-control" name="PhoneNumber" />
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
 
@@ -43,10 +44,16 @@
                         url: '/Vacancies/Apply', // Kontroller metodunun URL-i
                         type: 'POST',
                         contentType: 'application/json',
+                        // data: JSON.stringify({
+                        //     Name: $('#FullName').val(),
+                        //     Email: $('#Email').val(),
+                        //     Phone: $('#PhoneNumber').val()
+                        // }),
                         data: JSON.stringify({
-                            Name: $('#FullName').val(),
-                            Email: $('#Email').val(),
-                            Phone: $('#PhoneNumber').val()
+                            VacancyId: $("input[name='VacancyId']").val(),
+                            FullName: $("input[name='FullName']").val(),
+                            Email: $("input[name='Email']").val(),
+                            PhoneNumber: $("input[name='PhoneNumber']").val()
                         }),
                         success: function (response) {
                             // alert("Application submitted successfully!");
