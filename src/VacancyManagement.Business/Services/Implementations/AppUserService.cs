@@ -26,7 +26,8 @@ namespace VacancyManagementApp.Business.Services.Implementations
             var result = await _userManager.CreateAsync(user, password);
             if (!result.Succeeded)
             {
-                throw new Exception("User creation failed.");
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new Exception($"User creation failed. Errors: {errors}");
             }
             return result;
         }

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using System;
 using VacancyManagement.Business.Profiles;
@@ -38,18 +39,19 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 //Add FluentValidation
-//builder.Services.AddFluentValidationAutoValidation();
-//builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+//builder.Services.AddControllersWithViews()
+//    .AddFluentValidation(fv =>
+//    {
+//        fv.RegisterValidatorsFromAssemblyContaining<RegisterDtoValidator>();
+//        fv.DisableDataAnnotationsValidation = true;
+//    });
 builder.Services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
 
 var app = builder.Build();
 
 //Call SeedRoles method for creating Roles
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-//    await services.SeedRoles();  // SeedRoles method
-//}
 using (var scope = app.Services.CreateScope())
 {
     await scope.ServiceProvider.SeedRoles();
