@@ -216,6 +216,30 @@ namespace VacancyManagement.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TestEvaluations",
+                columns: table => new
+                {
+                    ApplicantTestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApplicantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApplicantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VacancyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VacancyTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CorrectAnswers = table.Column<int>(type: "int", nullable: false),
+                    TotalQuestions = table.Column<int>(type: "int", nullable: false),
+                    Percentage = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestEvaluations", x => x.ApplicantTestId);
+                    table.ForeignKey(
+                        name: "FK_TestEvaluations_Vacancies_VacancyId",
+                        column: x => x.VacancyId,
+                        principalTable: "Vacancies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TestQuestions",
                 columns: table => new
                 {
@@ -234,6 +258,35 @@ namespace VacancyManagement.Infrastructure.Migrations
                         principalTable: "Vacancies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApplicantCVs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApplicantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicantCVs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ApplicantCVs_Applicants_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ApplicantCVs_TestEvaluations_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "TestEvaluations",
+                        principalColumn: "ApplicantTestId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -298,9 +351,14 @@ namespace VacancyManagement.Infrastructure.Migrations
                 columns: new[] { "Id", "CreatedAt", "Description", "IsActive", "Title", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("017a9c4e-467f-4a18-bed3-6ca100eb6df9"), new DateTime(2024, 12, 12, 8, 59, 28, 352, DateTimeKind.Utc).AddTicks(9724), "Manage sales activities.", true, "Sales Manager", null },
-                    { new Guid("c37e1928-8519-4639-a0d5-c8f53ab239f2"), new DateTime(2024, 12, 12, 8, 59, 28, 352, DateTimeKind.Utc).AddTicks(8613), "Develop software solutions.", true, "Software Developer", null }
+                    { new Guid("1ce2cd01-f651-4a71-b8c3-b69c1b82630d"), new DateTime(2024, 12, 12, 23, 41, 18, 491, DateTimeKind.Utc).AddTicks(9086), "Manage sales activities.", true, "Sales Manager", null },
+                    { new Guid("e329872a-2b4f-452c-99e4-1f50ed4eec0f"), new DateTime(2024, 12, 12, 23, 41, 18, 491, DateTimeKind.Utc).AddTicks(7955), "Develop software solutions.", true, "Software Developer", null }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicantCVs_ApplicantId",
+                table: "ApplicantCVs",
+                column: "ApplicantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Applicants_VacancyId",
@@ -347,6 +405,11 @@ namespace VacancyManagement.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TestEvaluations_VacancyId",
+                table: "TestEvaluations",
+                column: "VacancyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TestOptions_TestQuestionId",
                 table: "TestOptions",
                 column: "TestQuestionId");
@@ -376,7 +439,7 @@ namespace VacancyManagement.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Applicants");
+                name: "ApplicantCVs");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -395,6 +458,12 @@ namespace VacancyManagement.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "TestResults");
+
+            migrationBuilder.DropTable(
+                name: "Applicants");
+
+            migrationBuilder.DropTable(
+                name: "TestEvaluations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

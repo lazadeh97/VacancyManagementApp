@@ -7,7 +7,7 @@ using VacancyManagement.Core.Entities;
 
 namespace VacancyManagementApp.Core.Interfaces
 {
-    public interface IGenericRepository<T> where T : BaseEntity
+    public interface IGenericRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetByIdAsync(Guid id);

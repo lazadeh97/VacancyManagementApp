@@ -1,0 +1,39 @@
+﻿@model IEnumerable<VacancyManagement.Business.DTOs.TestEvaluationDto>
+
+<h2>Test Nəticələri</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Namizəd</th>
+            <th>Düzgün Cavablar</th>
+            <th>Ümumi Sual Sayı</th>
+            <th>Faiz</th>
+            <th>Nəticə</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var evaluation in Model)
+        {
+            <tr style="background-color:@evaluation.ResultColor">
+                <td>@evaluation.ApplicantTestId</td>
+                <td>@evaluation.CorrectAnswers</td>
+                <td>@evaluation.TotalQuestions</td>
+                <td>@evaluation.Percentage%</td>
+                <td>
+                    @if (evaluation.Percentage >= 75)
+                    {
+                        <span>Uğurlu</span>
+                    }
+                    else if (evaluation.Percentage >= 50)
+                    {
+                        <span>Orta</span>
+                    }
+                    else
+                    {
+                        <span>Zəif</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

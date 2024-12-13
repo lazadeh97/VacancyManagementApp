@@ -225,6 +225,42 @@ namespace VacancyManagement.Infrastructure.Migrations
                     b.ToTable("ApplicantTests");
                 });
 
+            modelBuilder.Entity("VacancyManagement.Core.Entities.TestEvaluation", b =>
+                {
+                    b.Property<Guid>("ApplicantTestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ApplicantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ApplicantName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CorrectAnswers")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Percentage")
+                        .HasColumnType("float");
+
+                    b.Property<int>("TotalQuestions")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("VacancyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("VacancyTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ApplicantTestId");
+
+                    b.HasIndex("VacancyId");
+
+                    b.ToTable("TestEvaluations");
+                });
+
             modelBuilder.Entity("VacancyManagement.Core.Entities.TestOption", b =>
                 {
                     b.Property<Guid>("Id")
@@ -441,16 +477,16 @@ namespace VacancyManagement.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bc2c5a13-6c81-44e3-b1ef-25c2074e55d6"),
-                            CreatedAt = new DateTime(2024, 12, 12, 12, 54, 38, 22, DateTimeKind.Utc).AddTicks(6347),
+                            Id = new Guid("e329872a-2b4f-452c-99e4-1f50ed4eec0f"),
+                            CreatedAt = new DateTime(2024, 12, 12, 23, 41, 18, 491, DateTimeKind.Utc).AddTicks(7955),
                             Description = "Develop software solutions.",
                             IsActive = true,
                             Title = "Software Developer"
                         },
                         new
                         {
-                            Id = new Guid("cbf7ee09-5195-4a6d-9b45-6a0c42133ef2"),
-                            CreatedAt = new DateTime(2024, 12, 12, 12, 54, 38, 22, DateTimeKind.Utc).AddTicks(8108),
+                            Id = new Guid("1ce2cd01-f651-4a71-b8c3-b69c1b82630d"),
+                            CreatedAt = new DateTime(2024, 12, 12, 23, 41, 18, 491, DateTimeKind.Utc).AddTicks(9086),
                             Description = "Manage sales activities.",
                             IsActive = true,
                             Title = "Sales Manager"
@@ -521,6 +557,12 @@ namespace VacancyManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("VacancyManagement.Core.Entities.ApplicantCV", b =>
                 {
+                    b.HasOne("VacancyManagement.Core.Entities.TestEvaluation", null)
+                        .WithMany("ApplicantCVs")
+                        .HasForeignKey("ApplicantId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("VacancyManagement.Core.Entities.Applicant", "Applicant")
                         .WithMany("ApplicantCVs")
                         .HasForeignKey("ApplicantId")
@@ -528,6 +570,17 @@ namespace VacancyManagement.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Applicant");
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.TestEvaluation", b =>
+                {
+                    b.HasOne("VacancyManagementApp.Core.Entities.Vacancy", "Vacancy")
+                        .WithMany()
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vacancy");
                 });
 
             modelBuilder.Entity("VacancyManagement.Core.Entities.TestOption", b =>
@@ -585,6 +638,11 @@ namespace VacancyManagement.Infrastructure.Migrations
             modelBuilder.Entity("VacancyManagement.Core.Entities.ApplicantTest", b =>
                 {
                     b.Navigation("TestResults");
+                });
+
+            modelBuilder.Entity("VacancyManagement.Core.Entities.TestEvaluation", b =>
+                {
+                    b.Navigation("ApplicantCVs");
                 });
 
             modelBuilder.Entity("VacancyManagement.Core.Entities.TestQuestion", b =>

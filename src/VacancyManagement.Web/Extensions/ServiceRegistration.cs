@@ -28,16 +28,22 @@ namespace VacancyManagement.Web.Extensions
 
             //Repositories
             services.AddScoped<ITestQuestionRepository, TestQuestionRepository>();
+            services.AddScoped<ITestRepository, TestRepository>();
+            services.AddScoped<IApplicantRepository, ApplicantRepository>();
             services.AddScoped<IGenericRepository<ApplicantCV>, GenericRepository<ApplicantCV>>();
 
-            //services.AddScoped<IAppRoleRepository, AppRoleRepository>();
-            //services.AddScoped<IAppUserRepository, AppUserRepository>();
+
+            services.AddScoped<IAppRoleRepository, AppRoleRepository>();
+            services.AddScoped<IAppUserRepository, AppUserRepository>();
 
             //Services
             services.AddScoped<ITestService, TestService>();
             services.AddScoped<IVacancyService, VacancyService>();
             services.AddScoped<IAppUserService, AppUserService>();
             services.AddScoped<IAppRoleService, AppRoleService>();
+            services.AddScoped<IAppRoleService, AppRoleService>();
+
+
         }
     }
 }

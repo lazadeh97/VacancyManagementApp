@@ -15,6 +15,8 @@ namespace VacancyManagementApp.Infrastructure.DAL
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
+        public DbSet<AppRole> Roles { get; set; } // DbSet<AppRole> burada olmalıdır
+        public DbSet<AppUser> Users { get; set; }
         public DbSet<Vacancy> Vacancies { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
         public DbSet<TestQuestion> TestQuestions { get; set; }
@@ -22,6 +24,7 @@ namespace VacancyManagementApp.Infrastructure.DAL
         public DbSet<ApplicantTest> ApplicantTests { get; set; }
         public DbSet<TestResult> TestResults { get; set; }
         public DbSet<ApplicantCV> ApplicantCVs { get; set; }
+        public DbSet<TestEvaluation> TestEvaluations { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -38,6 +41,22 @@ namespace VacancyManagementApp.Infrastructure.DAL
                 new Vacancy { Id = Guid.NewGuid(), Title = "Software Developer", Description = "Develop software solutions.", IsActive = true },
                 new Vacancy { Id = Guid.NewGuid(), Title = "Sales Manager", Description = "Manage sales activities.", IsActive = true }
             );
+
+            modelBuilder.Entity<TestEvaluation>()
+               .HasKey(te => te.ApplicantTestId); // ApplicantTestId əsas açar kimi təyin olunur
+
+            // TestEvaluation ilə ApplicantCV arasında bir çox-çox əlaqəni təyin edirik
+            modelBuilder.Entity<TestEvaluation>()
+                .HasMany(te => te.ApplicantCVs)
+                .WithOne()
+                .HasForeignKey(cv => cv.ApplicantId)
+                .OnDelete(DeleteBehavior.Restrict);  // Foreign Key əlaqəsi
+
+            // TestEvaluation ilə Vacancy arasında bir çoxdan birə əlaqə
+            //modelBuilder.Entity<TestEvaluation>()
+            //    .HasOne(te => te.Vacancy) // TestEvaluation bir Vacancy ilə əlaqəlidir
+            //    .WithMany(v => v.TestEvaluations) // Bir Vacancy bir neçə TestEvaluation-a malik ola bilər
+            //    .HasForeignKey(te => te.VacancyId); // VacancyId Foreign Key olaraq istifadə edilir
 
             modelBuilder.Entity<TestOption>()
             .HasOne(to => to.TestQuestion)

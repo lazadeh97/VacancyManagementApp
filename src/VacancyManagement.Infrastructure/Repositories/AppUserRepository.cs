@@ -10,13 +10,13 @@ using VacancyManagementApp.Infrastructure.DAL;
 
 namespace VacancyManagementApp.Infrastructure.Repositories
 {
-    //public class AppUserRepository : GenericRepository<AppUser>, IAppUserRepository
-    //{
-    //    public AppUserRepository(ApplicationDbContext context) : base(context) { }
+    public class AppUserRepository : GenericRepository<AppUser>, IAppUserRepository
+    {
+        public AppUserRepository(ApplicationDbContext context) : base(context) { }
 
-    //    public async Task<AppUser> GetUserByEmailAsync(string email)
-    //    {
-    //        return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-    //    }
-    //}
+        public async Task<AppUser> GetUserByEmailAsync(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+    }
 }

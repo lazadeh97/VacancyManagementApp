@@ -1,0 +1,38 @@
+﻿@model List<VacancyManagement.Core.Entities.TestEvaluation>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Applicant Name</th>
+            <th>Vacancy Title</th>
+            <th>Correct Answers</th>
+            <th>Total Questions</th>
+            <th>Percentage</th>
+            <th>Result Color</th>
+            <th>CVs</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var eval in Model)
+        {
+            <tr>
+                <td>@eval.ApplicantName</td>
+                <td>@eval.VacancyTitle</td>
+                <td>@eval.CorrectAnswers</td>
+                <td>@eval.TotalQuestions</td>
+                <td>@eval.Percentage%</td>
+                <td style="color:@eval.ResultColor">@eval.ResultColor</td>
+                <td>
+                    <ul>
+                        @foreach (var cv in eval.ApplicantCVs)
+                        {
+                            <li>
+                                <a href="@cv.FilePath" target="_blank">@cv.FileName</a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

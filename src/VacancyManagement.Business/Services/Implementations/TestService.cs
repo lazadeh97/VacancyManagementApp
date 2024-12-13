@@ -98,4 +98,29 @@ public class TestService : ITestService
 
         return isCorrect;
     }
+
+    public async Task<TestEvaluationDto> EvaluateTestAsync(Guid applicantTestId)
+    {
+        // Namizədin test nəticələrini gətirin
+        var testResults = await _testResultRepository.GetAllAsync();
+        var filteredResults = testResults.Where(tr => tr.ApplicantTestId == applicantTestId).ToList();
+
+        // Düzgün cavabların sayını hesablayın
+        int correctAnswers = filteredResults.Count(tr => tr.IsCorrect);
+
+        // Ümumi sual sayını müəyyən edin
+        int totalQuestions = filteredResults.Count;
+
+        // Faizi hesablayın
+        double percentage = totalQuestions > 0 ? ((double)correctAnswers / totalQuestions) * 100 : 0;
+
+        return new TestEvaluationDto
+        {
+            ApplicantTestId = applicantTestId,
+            CorrectAnswers = correctAnswers,
+            TotalQuestions = totalQuestions,
+            Percentage = percentage
+        };
+    }
+
 }
