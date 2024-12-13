@@ -66,53 +66,38 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRouting();
-app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+//app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
 
 app.UseEndpoints(endpoints =>
 {
-    // İstifadəçi üçün Default Route
+    // Default route
     endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Vacancies}/{action=Index}/{id?}");
+       name: "default",
+       pattern: "{controller=Vacancies}/{action=Index}/{id?}");
 
-    // Admin Area üçün Route
+    // Account route
+    endpoints.MapAreaControllerRoute(
+     name: "Account",
+     areaName: "Account",
+     pattern: "Account/{controller=Account}/{action=Login}/{id?}");
+
     endpoints.MapAreaControllerRoute(
         name: "Admin",
         areaName: "Admin",
         pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+
+    endpoints.MapAreaControllerRoute(
+        name: "User",
+        areaName: "User",
+        pattern: "User/{controller=Dashboard}/{action=Index}/{id?}");
+
+    // CV-lər üçün route
+    endpoints.MapControllerRoute(
+        name: "cv",
+        pattern: "CV/ViewApplicantCVs/{applicantId?}",
+        defaults: new { controller = "CV", action = "ViewApplicantCVs" });
 });
-
-
-
-//app.UseEndpoints(endpoints =>
-//{
-//    // Default route
-//    endpoints.MapControllerRoute(
-//       name: "default",
-//       pattern: "{controller=Vacancies}/{action=Index}/{id?}");
-
-//    // Account route
-//    endpoints.MapAreaControllerRoute(
-//     name: "Account",
-//     areaName: "Account",
-//     pattern: "Account/{controller=Account}/{action=Login}/{id?}");
-
-//    endpoints.MapAreaControllerRoute(
-//        name: "Admin",
-//        areaName: "Admin",
-//        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
-
-//    endpoints.MapAreaControllerRoute(
-//        name: "User",
-//        areaName: "User",
-//        pattern: "User/{controller=Dashboard}/{action=Index}/{id?}");
-
-//    // CV-lər üçün route
-//    endpoints.MapControllerRoute(
-//        name: "cv",
-//        pattern: "CV/ViewApplicantCVs/{applicantId?}",
-//        defaults: new { controller = "CV", action = "ViewApplicantCVs" });
-//});
 
 app.MapRazorPages();
 
